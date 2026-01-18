@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Эмоциональные Кнопки - Элегантный Дизайн</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1e1e1e, #2c2c2c);
+            color: #f0f0f0;
+            margin: 0;
+            padding: 40px 0; /* Убрали боковые отступы для полноэкранного вида */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden; /* Скрываем любые переполнения */
+        }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5em;
+            color: #d4af37; /* Золотой цвет для роскоши */
+            text-align: center;
+            margin-bottom: 40px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        #carousel-wrapper {
+            width: 100vw;
+            overflow: hidden;
+            position: relative;
+        }
+        #carousel {
+            display: flex;
+            flex-direction: row;
+            white-space: nowrap;
+            will-change: transform;
+            transition: transform 0.3s ease; /* Плавный переход для ручного скролла */
+            /* Анимация для бесконечного скролла будет в JS */
+        }
+        button {
+            margin: 0 15px;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-family: 'Playfair Display', serif;
+            background: linear-gradient(135deg, #d4af37, #b8860b);
+            color: #1e1e1e;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        }
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6);
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body>
+    <h1>Выберите Эмоцию или Действие</h1>
+    <div id="carousel-wrapper">
+        <div id="carousel">
+            <!-- Оригинальные кнопки -->
+            <button onclick="sendMessage('Поцелуйка')">Поцелуйка</button>
+            <button onclick="sendMessage('Обнимашки')">Обнимашки</button>
+            <button onclick="sendMessage('Вкусняшка')">Вкусняшка</button>
+            <button onclick="sendMessage('Мне хорошо')">Мне хорошо</button>
+            <button onclick="sendMessage('Грустно')">Грустно</button>
+            <button onclick="sendMessage('Счастливо')">Счастливо</button>
+            <button onclick="sendMessage('Злюсь')">Злюсь</button>
+            <button onclick="sendMessage('Устал')">Устал</button>
+            <!-- Клоны будут добавлены через JS -->
+        </div>
+    </div>
+
+    <script>
+        const wrapper = document.getElementById('carousel-wrapper');
+        const carousel = document.getElementById('carousel');
+        const buttons = carousel.querySelectorAll('button');
+        const speed = 1; // Скорость скролла в пикселях за кадр
+
+        // Дублируем кнопки для бесконечного эффекта (минимум 2 копии для seamless)
+        const originalContent = carousel.innerHTML;
+        carousel.innerHTML += originalContent + originalContent; // Три копии для плавности
+
+        let position = 0;
+        let animationId;
+
+        function infiniteScroll() {
+            position -= speed; // Двигаем влево
+            carousel.style.transform = `translateX(${position}px)`;
+
+            // Когда первая копия полностью ушла влево, ресетим позицию
+            if (Math.abs(position) >= carousel.scrollWidth / 3) {
+                position = 0;
+                carousel.style.transition = 'none'; // Отключаем transition для мгновенного ресета
+                carousel.style.transform = `translateX(${position}px)`;
+                // Принудительный reflow для сброса transition
+                void carousel.offsetWidth;
+                carousel.style.transition = 'transform 0.3s ease';
+            }
+
+            animationId = requestAnimationFrame(infiniteScroll);
+        }
+
+        infiniteScroll();
+
+        // Поддержка ручного скролла (тач/мышь)
+        let isDragging = false;
+        let startX;
+        let scrollLeft;
+
+        carousel.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.pageX - carousel.offsetLeft;
+            scrollLeft = position; // Используем текущую позицию
+            cancelAnimationFrame(animationId); // Останавливаем автоскролл
+        });
+
+        carousel.addEventListener('mouseleave', () => {
+            if (isDragging) isDragging = false;
+            infiniteScroll(); // Возобновляем автоскролл
+        });
+
+        carousel.addEventListener('mouseup', () => {
+            isDragging = false;
+            infiniteScroll(); // Возобновляем автоскролл
+        });
+
+        carousel.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+            const x = e.pageX - carousel.offsetLeft;
+            const walk = (x - startX) * 2; // Ускоряем скролл
+            position = scrollLeft + walk;
+            carousel.style.transform = `translateX(${position}px)`;
+        });
+
+        // Для тач-устройств
+        carousel.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            startX = e.touches[0].pageX - carousel.offsetLeft;
+            scrollLeft = position;
+            cancelAnimationFrame(animationId);
+        });
+
+        carousel.addEventListener('touchend', () => {
+            isDragging = false;
+            infiniteScroll();
+        });
+
+        carousel.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            const x = e.touches[0].pageX - carousel.offsetLeft;
+            const walk = (x - startX) * 2;
+            position = scrollLeft + walk;
+            carousel.style.transform = `translateX(${position}px)`;
+        });
+
+        // Функция для отправки сообщения в Telegram бот
+        function sendMessage(text) {
+            const token = '8062214606:AAGNJNICxADgoLwxpA6sXB3eXDWqc7NA29Y';
+            const chat_id = 'YOUR_CHAT_ID_HERE'; // Замените на ваш chat_id (например, ваш Telegram ID или ID чата/канала)
+
+            if (!chat_id || chat_id === 'YOUR_CHAT_ID_HERE') {
+                alert('Пожалуйста, укажите chat_id в коде перед использованием!');
+                return;
+            }
+
+            const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(text)}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        console.log('Сообщение отправлено:', text);
+                        alert('Сообщение отправлено: ' + text);
+                    } else {
+                        console.error('Ошибка:', data.description);
+                        alert('Ошибка отправки: ' + data.description);
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка сети:', error);
+                    alert('Ошибка сети: ' + error.message);
+                });
+        }
+    </script>
+</body>
+</html>
