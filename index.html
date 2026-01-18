@@ -3,195 +3,725 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Эмоциональные Кнопки - Элегантный Дизайн</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <title>Emotional Palette</title>
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #1e1e1e, #2c2c2c);
-            color: #f0f0f0;
+        * {
             margin: 0;
-            padding: 40px 0; /* Убрали боковые отступы для полноэкранного вида */
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(120, 119, 198, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(255, 119, 198, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.05) 0%, transparent 40%);
+            pointer-events: none;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .header {
+            margin-bottom: 60px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+        
+        .title {
+            color: #fff;
+            font-size: 3.8rem;
+            font-weight: 300;
+            letter-spacing: 8px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        }
+        
+        .subtitle {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-top: 30px;
+        }
+        
+        .gallery-container {
+            position: relative;
+            width: 100%;
+            height: 320px;
+            margin: 60px 0;
+            overflow: hidden;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+        
+        .gallery-track {
+            display: flex;
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            align-items: center;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 0 40px;
+            will-change: transform;
+        }
+        
+        .emotion-card {
+            min-width: 220px;
+            height: 260px;
+            margin: 0 20px;
+            border-radius: 25px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            overflow: hidden; /* Скрываем любые переполнения */
-        }
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5em;
-            color: #d4af37; /* Золотой цвет для роскоши */
-            text-align: center;
-            margin-bottom: 40px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-        }
-        #carousel-wrapper {
-            width: 100vw;
-            overflow: hidden;
-            position: relative;
-        }
-        #carousel {
-            display: flex;
-            flex-direction: row;
-            white-space: nowrap;
-            will-change: transform;
-            transition: transform 0.3s ease; /* Плавный переход для ручного скролла */
-            /* Анимация для бесконечного скролла будет в JS */
-        }
-        button {
-            margin: 0 15px;
-            padding: 15px 30px;
-            font-size: 18px;
-            font-family: 'Playfair Display', serif;
-            background: linear-gradient(135deg, #d4af37, #b8860b);
-            color: #1e1e1e;
-            border: none;
-            border-radius: 50px;
             cursor: pointer;
-            flex-shrink: 0;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
         }
-        button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6);
+        
+        .emotion-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
         }
-        button:active {
-            transform: scale(0.98);
+        
+        .emotion-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        
+        .emotion-card:hover {
+            transform: translateY(-20px) scale(1.05);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .emotion-card:hover::after {
+            opacity: 1;
+        }
+        
+        .emotion-card.active {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.35),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .emotion-icon {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+            transition: all 0.6s ease;
+        }
+        
+        .emotion-card:hover .emotion-icon {
+            transform: scale(1.1);
+            filter: drop-shadow(0 5px 20px rgba(0, 0, 0, 0.4));
+        }
+        
+        .emotion-name {
+            color: #fff;
+            font-size: 1.3rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .emotion-name::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0);
+            width: 30px;
+            height: 2px;
+            background: currentColor;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .emotion-card:hover .emotion-name::after {
+            transform: translateX(-50%) scaleX(1);
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.3s forwards;
+        }
+        
+        .nav-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .nav-btn:hover {
+            color: #fff;
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .nav-btn:hover::before {
+            opacity: 1;
+        }
+        
+        .status-indicator {
+            margin-top: 50px;
+            padding: 0 20px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.6s forwards;
+        }
+        
+        .status-content {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+        
+        .status-icon {
+            font-size: 1.8rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .status-text {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        
+        .status-text.sent {
+            color: #a5d6a7;
+        }
+        
+        .status-text.error {
+            color: #ff6b6b;
+        }
+        
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: floatParticle 20s linear infinite;
+        }
+        
+        .particle:nth-child(2n) {
+            width: 3px;
+            height: 3px;
+            animation-duration: 25s;
+            animation-delay: -5s;
+        }
+        
+        .particle:nth-child(3n) {
+            width: 1px;
+            height: 1px;
+            animation-duration: 30s;
+            animation-delay: -10s;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px);
+                opacity: 0;
+            }
+        }
+        
+        @media (max-width: 1200px) {
+            .title {
+                font-size: 3rem;
+            }
+            
+            .emotion-card {
+                min-width: 200px;
+                height: 240px;
+            }
+            
+            .gallery-container {
+                height: 300px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5rem;
+                letter-spacing: 5px;
+            }
+            
+            .emotion-card {
+                min-width: 180px;
+                height: 220px;
+                margin: 0 15px;
+            }
+            
+            .emotion-icon {
+                font-size: 3rem;
+            }
+            
+            .gallery-container {
+                height: 280px;
+            }
+            
+            .nav-btn {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .title {
+                font-size: 2rem;
+                letter-spacing: 3px;
+            }
+            
+            .emotion-card {
+                min-width: 160px;
+                height: 200px;
+            }
+            
+            .gallery-container {
+                height: 250px;
+            }
+            
+            .status-content {
+                padding: 15px 25px;
+            }
+            
+            .status-text {
+                font-size: 1rem;
+            }
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Выберите Эмоцию или Действие</h1>
-    <div id="carousel-wrapper">
-        <div id="carousel">
-            <!-- Оригинальные кнопки -->
-            <button onclick="sendMessage('Поцелуйка')">Поцелуйка</button>
-            <button onclick="sendMessage('Обнимашки')">Обнимашки</button>
-            <button onclick="sendMessage('Вкусняшка')">Вкусняшка</button>
-            <button onclick="sendMessage('Мне хорошо')">Мне хорошо</button>
-            <button onclick="sendMessage('Грустно')">Грустно</button>
-            <button onclick="sendMessage('Счастливо')">Счастливо</button>
-            <button onclick="sendMessage('Злюсь')">Злюсь</button>
-            <button onclick="sendMessage('Устал')">Устал</button>
-            <!-- Клоны будут добавлены через JS -->
+    <div class="floating-particles" id="particles"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1 class="title">Emotional Palette</h1>
+            <p class="subtitle">Express your feelings with elegance</p>
+        </div>
+        
+        <div class="gallery-container">
+            <div class="gallery-track" id="galleryTrack"></div>
+        </div>
+        
+        <div class="navigation">
+            <button class="nav-btn" id="scrollLeft">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="nav-btn" id="scrollRight">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+        
+        <div class="status-indicator">
+            <div class="status-content">
+                <div class="status-icon">
+                    <i class="fas fa-sparkles"></i>
+                </div>
+                <div class="status-text" id="statusText">
+                    Select an emotion to express your feeling
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        const wrapper = document.getElementById('carousel-wrapper');
-        const carousel = document.getElementById('carousel');
-        const buttons = carousel.querySelectorAll('button');
-        const speed = 1; // Скорость скролла в пикселях за кадр
-
-        // Дублируем кнопки для бесконечного эффекта (минимум 2 копии для seamless)
-        const originalContent = carousel.innerHTML;
-        carousel.innerHTML += originalContent + originalContent; // Три копии для плавности
-
-        let position = 0;
-        let animationId;
-
-        function infiniteScroll() {
-            position -= speed; // Двигаем влево
-            carousel.style.transform = `translateX(${position}px)`;
-
-            // Когда первая копия полностью ушла влево, ресетим позицию
-            if (Math.abs(position) >= carousel.scrollWidth / 3) {
-                position = 0;
-                carousel.style.transition = 'none'; // Отключаем transition для мгновенного ресета
-                carousel.style.transform = `translateX(${position}px)`;
-                // Принудительный reflow для сброса transition
-                void carousel.offsetWidth;
-                carousel.style.transition = 'transform 0.3s ease';
-            }
-
-            animationId = requestAnimationFrame(infiniteScroll);
-        }
-
-        infiniteScroll();
-
-        // Поддержка ручного скролла (тач/мышь)
+        // Конфигурация Telegram
+        const TELEGRAM_BOT_TOKEN = '8062214606:AAGNJNICxADgoLwxpA6sXB3eXDWqc7NA29Y';
+        const TELEGRAM_CHAT_ID = '8062214606'; // Вставьте ваш Chat ID сюда
+        
+        // Эмоции для кнопок
+        const emotions = [
+            { id: 'kiss', name: 'Поцелуй', icon: 'fa-kiss-wink-heart', color: '#E8B4BC' },
+            { id: 'hug', name: 'Объятия', icon: 'fa-hands', color: '#A5C9CA' },
+            { id: 'yummy', name: 'Вкусняшка', icon: 'fa-cookie-bite', color: '#FFD3B6' },
+            { id: 'good', name: 'Благополучие', icon: 'fa-smile-beam', color: '#A5D6A7' },
+            { id: 'sad', name: 'Грусть', icon: 'fa-sad-tear', color: '#B8B5FF' },
+            { id: 'love', name: 'Любовь', icon: 'fa-heart', color: '#FFAAA5' },
+            { id: 'cool', name: 'Уверенность', icon: 'fa-cool', color: '#89CFF0' },
+            { id: 'laugh', name: 'Смех', icon: 'fa-laugh-squint', color: '#FFD700' },
+            { id: 'angry', name: 'Раздражение', icon: 'fa-angry', color: '#FF6B6B' },
+            { id: 'surprise', name: 'Удивление', icon: 'fa-surprise', color: '#C9CBFF' },
+            { id: 'sleepy', name: 'Сонливость', icon: 'fa-bed', color: '#B0BEC5' },
+            { id: 'excited', name: 'Восторг', icon: 'fa-star', color: '#FFCC80' }
+        ];
+        
+        // Элементы DOM
+        const galleryTrack = document.getElementById('galleryTrack');
+        const scrollLeftBtn = document.getElementById('scrollLeft');
+        const scrollRightBtn = document.getElementById('scrollRight');
+        const statusText = document.getElementById('statusText');
+        const statusIcon = document.querySelector('.status-icon i');
+        const particlesContainer = document.getElementById('particles');
+        
+        // Переменные для управления скроллом
+        let currentScroll = 0;
+        let scrollWidth = 0;
+        let trackWidth = 0;
+        let autoScrollInterval;
+        let currentDirection = 1;
         let isDragging = false;
         let startX;
-        let scrollLeft;
-
-        carousel.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            startX = e.pageX - carousel.offsetLeft;
-            scrollLeft = position; // Используем текущую позицию
-            cancelAnimationFrame(animationId); // Останавливаем автоскролл
-        });
-
-        carousel.addEventListener('mouseleave', () => {
-            if (isDragging) isDragging = false;
-            infiniteScroll(); // Возобновляем автоскролл
-        });
-
-        carousel.addEventListener('mouseup', () => {
-            isDragging = false;
-            infiniteScroll(); // Возобновляем автоскролл
-        });
-
-        carousel.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-            e.preventDefault();
-            const x = e.pageX - carousel.offsetLeft;
-            const walk = (x - startX) * 2; // Ускоряем скролл
-            position = scrollLeft + walk;
-            carousel.style.transform = `translateX(${position}px)`;
-        });
-
-        // Для тач-устройств
-        carousel.addEventListener('touchstart', (e) => {
-            isDragging = true;
-            startX = e.touches[0].pageX - carousel.offsetLeft;
-            scrollLeft = position;
-            cancelAnimationFrame(animationId);
-        });
-
-        carousel.addEventListener('touchend', () => {
-            isDragging = false;
-            infiniteScroll();
-        });
-
-        carousel.addEventListener('touchmove', (e) => {
-            if (!isDragging) return;
-            const x = e.touches[0].pageX - carousel.offsetLeft;
-            const walk = (x - startX) * 2;
-            position = scrollLeft + walk;
-            carousel.style.transform = `translateX(${position}px)`;
-        });
-
-        // Функция для отправки сообщения в Telegram бот
-        function sendMessage(text) {
-            const token = '8062214606:AAGNJNICxADgoLwxpA6sXB3eXDWqc7NA29Y';
-            const chat_id = '402109857'; // Замените на ваш chat_id (например, ваш Telegram ID или ID чата/канала)
-
-            if (!chat_id || chat_id === 'YOUR_CHAT_ID_HERE') {
-                alert('Пожалуйста, укажите chat_id в коде перед использованием!');
+        let scrollLeftStart;
+        
+        // Создание плавающих частиц
+        function createParticles() {
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 20}s`;
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Инициализация эмоций
+        function initEmotionCards() {
+            // Создаем двойной набор для бесшовной прокрутки
+            [...emotions, ...emotions].forEach((emotion, index) => {
+                const card = document.createElement('div');
+                card.className = 'emotion-card';
+                card.dataset.id = emotion.id;
+                card.dataset.index = index;
+                card.innerHTML = `
+                    <div class="emotion-icon" style="color: ${emotion.color}">
+                        <i class="fas ${emotion.icon}"></i>
+                    </div>
+                    <div class="emotion-name" style="color: ${emotion.color}">
+                        ${emotion.name}
+                    </div>
+                `;
+                
+                card.addEventListener('click', () => selectEmotion(emotion, card));
+                galleryTrack.appendChild(card);
+            });
+            
+            // Обновляем размеры после создания элементов
+            setTimeout(() => {
+                scrollWidth = galleryTrack.scrollWidth;
+                trackWidth = galleryTrack.clientWidth;
+            }, 100);
+        }
+        
+        // Выбор эмоции
+        function selectEmotion(emotion, card) {
+            // Убираем активный класс со всех карточек
+            document.querySelectorAll('.emotion-card').forEach(c => {
+                c.classList.remove('active');
+            });
+            
+            // Добавляем активный класс выбранной карточке
+            card.classList.add('active');
+            
+            // Обновляем статус
+            statusText.textContent = `Отправка "${emotion.name}"...`;
+            statusIcon.className = 'fas fa-paper-plane';
+            
+            // Отправляем в Telegram
+            sendToTelegram(emotion);
+        }
+        
+        // Отправка в Telegram
+        async function sendToTelegram(emotion) {
+            // Проверяем, указан ли Chat ID
+            if (!TELEGRAM_CHAT_ID) {
+                statusText.textContent = 'Ошибка: Chat ID не указан';
+                statusText.className = 'status-text error';
+                statusIcon.className = 'fas fa-exclamation-circle';
+                
+                setTimeout(() => {
+                    statusText.textContent = 'Select an emotion to express your feeling';
+                    statusText.className = 'status-text';
+                    statusIcon.className = 'fas fa-sparkles';
+                }, 3000);
                 return;
             }
-
-            const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(text)}`;
-
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.ok) {
-                        console.log('Сообщение отправлено:', text);
-                        alert('Сообщение отправлено: ' + text);
-                    } else {
-                        console.error('Ошибка:', data.description);
-                        alert('Ошибка отправки: ' + data.description);
-                    }
-                })
-                .catch(error => {
-                    console.error('Ошибка сети:', error);
-                    alert('Ошибка сети: ' + error.message);
+            
+            try {
+                const message = `Новая эмоция: ${emotion.name}`;
+                const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+                
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CHAT_ID,
+                        text: message
+                    })
                 });
+                
+                const data = await response.json();
+                
+                if (data.ok) {
+                    statusText.textContent = `"${emotion.name}" успешно отправлено`;
+                    statusText.className = 'status-text sent';
+                    statusIcon.className = 'fas fa-check';
+                    
+                    setTimeout(() => {
+                        statusText.textContent = 'Эмоция выражена и доставлена';
+                        statusText.className = 'status-text';
+                        statusIcon.className = 'fas fa-sparkles';
+                    }, 2000);
+                } else {
+                    statusText.textContent = `Ошибка отправки: ${data.description || 'Неизвестная ошибка'}`;
+                    statusText.className = 'status-text error';
+                    statusIcon.className = 'fas fa-exclamation-circle';
+                    
+                    setTimeout(() => {
+                        statusText.textContent = 'Select an emotion to express your feeling';
+                        statusText.className = 'status-text';
+                        statusIcon.className = 'fas fa-sparkles';
+                    }, 3000);
+                }
+            } catch (error) {
+                statusText.textContent = 'Ошибка соединения';
+                statusText.className = 'status-text error';
+                statusIcon.className = 'fas fa-exclamation-circle';
+                
+                setTimeout(() => {
+                    statusText.textContent = 'Select an emotion to express your feeling';
+                    statusText.className = 'status-text';
+                    statusIcon.className = 'fas fa-sparkles';
+                }, 2000);
+            }
         }
+        
+        // Автопрокрутка
+        function startAutoScroll() {
+            autoScrollInterval = setInterval(() => {
+                currentScroll += currentDirection * 0.5;
+                
+                // Бесшовная прокрутка
+                if (currentScroll >= scrollWidth / 2) {
+                    currentScroll = 0;
+                } else if (currentScroll <= 0) {
+                    currentScroll = scrollWidth / 2;
+                }
+                
+                galleryTrack.style.transform = `translateX(-${currentScroll}px)`;
+            }, 16); // ~60fps
+        }
+        
+        function stopAutoScroll() {
+            clearInterval(autoScrollInterval);
+        }
+        
+        // Ручная навигация
+        function scrollGallery(direction) {
+            const scrollAmount = trackWidth * 0.5;
+            currentScroll += direction * scrollAmount;
+            
+            // Ограничиваем прокрутку
+            if (currentScroll > scrollWidth / 2) {
+                currentScroll = 0;
+            } else if (currentScroll < 0) {
+                currentScroll = scrollWidth / 2;
+            }
+            
+            galleryTrack.style.transform = `translateX(-${currentScroll}px)`;
+            galleryTrack.style.transition = 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+        }
+        
+        // Перетаскивание мышью
+        function initDragScroll() {
+            galleryTrack.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                startX = e.pageX - galleryTrack.offsetLeft;
+                scrollLeftStart = currentScroll;
+                galleryTrack.style.cursor = 'grabbing';
+                galleryTrack.style.transition = 'none';
+            });
+            
+            galleryTrack.addEventListener('mouseleave', () => {
+                isDragging = false;
+                galleryTrack.style.cursor = 'grab';
+            });
+            
+            galleryTrack.addEventListener('mouseup', () => {
+                isDragging = false;
+                galleryTrack.style.cursor = 'grab';
+                galleryTrack.style.transition = 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+            });
+            
+            galleryTrack.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                e.preventDefault();
+                const x = e.pageX - galleryTrack.offsetLeft;
+                const walk = (x - startX) * 2;
+                currentScroll = scrollLeftStart - walk;
+                galleryTrack.style.transform = `translateX(-${currentScroll}px)`;
+            });
+            
+            galleryTrack.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                currentScroll += e.deltaY * 0.5;
+                galleryTrack.style.transform = `translateX(-${currentScroll}px)`;
+                galleryTrack.style.transition = 'transform 0.3s ease';
+            });
+        }
+        
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            initEmotionCards();
+            initDragScroll();
+            startAutoScroll();
+            
+            // Обработчики для кнопок навигации
+            scrollLeftBtn.addEventListener('click', () => scrollGallery(-1));
+            scrollRightBtn.addEventListener('click', () => scrollGallery(1));
+            
+            // Останавливаем автопрокрутку при наведении
+            galleryTrack.addEventListener('mouseenter', stopAutoScroll);
+            galleryTrack.addEventListener('mouseleave', startAutoScroll);
+            
+            // Устанавливаем курсор по умолчанию
+            galleryTrack.style.cursor = 'grab';
+            
+            // Проверяем наличие Chat ID при загрузке
+            if (!TELEGRAM_CHAT_ID) {
+                console.warn('Telegram Chat ID не указан. Сообщения не будут отправляться.');
+            }
+        });
     </script>
 </body>
 </html>
