@@ -481,10 +481,10 @@
             { id: 'kiss', name: 'Поцелуй', icon: 'fa-kiss-wink-heart', color: '#E8B4BC' },
             { id: 'hug', name: 'Объятия', icon: 'fa-hands', color: '#A5C9CA' },
             { id: 'yummy', name: 'Вкусняшка', icon: 'fa-cookie-bite', color: '#FFD3B6' },
-            { id: 'good', name: 'Благополучие', icon: 'fa-smile-beam', color: '#A5D6a7' },
+            { id: 'good', name: 'Обидка', icon: 'fa-smile-beam', color: '#A5D6a7' },
             { id: 'sad', name: 'Грусть', icon: 'fa-sad-tear', color: '#B8B5FF' },
             { id: 'love', name: 'Любовь', icon: 'fa-heart', color: '#FFAAA5' },
-            { id: 'cool', name: 'Уверенность', icon: 'fa-cool', color: '#89CFF0' },
+            { id: 'cool', name: 'Близость', icon: 'fa-cool', color: '#89CFF0' },
             { id: 'laugh', name: 'Смех', icon: 'fa-laugh-squint', color: '#FFD700' },
             { id: 'angry', name: 'Раздражение', icon: 'fa-angry', color: '#FF6B6B' },
             { id: 'surprise', name: 'Удивление', icon: 'fa-surprise', color: '#C9CBFF' },
@@ -564,7 +564,7 @@
         // Отправка в Telegram ЛИЧНО ВАМ
         async function sendToTelegram(emotion) {
             try {
-                const message = `💌 Новая эмоция: ${emotion.name}\n\nОтправлено через Emotional Palette в ${new Date().toLocaleTimeString()}`;
+                const message = `💌 Хочу: ${emotion.name};
                 const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
                 
                 console.log('Отправка сообщения на User ID:', TELEGRAM_USER_ID);
